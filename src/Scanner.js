@@ -118,13 +118,13 @@ class Scanner {
       }
     }
 
-    this._addToken(TokenType.NUMBER, parseFloat(this.source.substring(this.start, this.current)))
+    this._addToken(TokenType.NUMBER, parseFloat(this.source.substring(this.start, this.current)));
   }
 
   _isAlpha(char) {
     return char >= 'a' && char <= 'z' ||
       (char >= 'A' && char <= 'Z') ||
-      char === '_'
+      char === '_';
   }
 
   _isAlphaNumeric(char) {
@@ -132,8 +132,9 @@ class Scanner {
   }
 
   _scanIdentifier(char) {
-    while (this._isAlphaNumeric(char)) { this._advance(); }
+    while (this._isAlphaNumeric(this._peek())) { this._advance(); }
     const text = this.source.substring(this.start, this.current);
+
 
     const type = text in reservedWords ? reservedWords[text] : TokenType.IDENTIFIER;
     this._addToken(type);
@@ -200,7 +201,7 @@ class Scanner {
         // Ignore whitespace.
         break;
       case '\n':
-        this.line += 1
+        this.line += 1;
         break;
       case '"':
         this._scanString();
@@ -211,7 +212,7 @@ class Scanner {
         } else if(this._isAlpha(char)) {
           this._scanIdentifier();
         } else {
-          this.Lox.error(this.line, 'Unexpected character.')
+          this.Lox.error(this.line, 'Unexpected character.');
         }
         break;
     }
